@@ -1,0 +1,76 @@
+body {
+  background: url('http://www.rebgaming.com/wp-content/uploads/2013/05/League-of-legends-Wallpaper-1920x1080.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+h1{
+  color: #ff0026;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 4px 4px 2px rgba(5, 5, 5, 1);
+}
+
+.container {
+  text-align: center;
+}
+
+.col-md-2 {
+  height:80px;
+  width: 80px;
+}
+
+#gameboard {
+  padding: 1em;
+  text-align: center;
+  display: inline-block;
+}
+
+.river {
+  background-color: #0016e2;
+  border: 2px solid #6cccfc;
+}
+
+.snow {
+  background-color: #eaeff2;
+  border: 2px solid white;
+}
+
+.nexus {
+  background-color: purple;
+  font-weight: bold;
+  border: 2px solid yellow;
+}
+
+.tower {
+  background-color: gray;
+  font-weight: bold;
+  border: 3px solid black;
+}
+
+.bush {
+  background-color: #06d65c;
+  // opacity: 0.8;
+  border: 2px solid #1f9b33;
+}
+
+.gameSquare:not(.bush):not(.river):not(.nexus):not(.tower):not(.snow) {
+  border: 2px solid red;
+  background-color: gray;
+  opacity: 0.7;
+}
+
+.gameSquare {
+  // border: 1px solid red;
+}
+
+.row {
+  text-align: center;
+  display: inline-block;
+}
+
+.chief, .assassin, .fighter {
+  height: 55px;
+  width: 55px;
+  border: 2px solid #c90000;
+  margin-top: 5px;
+}
