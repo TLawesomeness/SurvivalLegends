@@ -21,6 +21,7 @@
   "license": "CPP",
   "dependencies": {
     "connect": "^3.3.4",
+    "lodash": "^3.5.0",
     "morgan": "^1.5.1",
     "serve-static": "^1.8.1"
   },
