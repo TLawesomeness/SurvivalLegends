@@ -19,11 +19,13 @@ $(function() {
     $('#gameboard').append(row);
   }
 
+
+  //create preset game pieces load display
   var set1combo1 = [$('#0'), $('#1'), $('#2'), $('#3'), $('#4'), $('#5'), $('#6'),
                 $('#7'), $('#8'), $('#9'), $('#10'), $('#11'), $('#12'), $('#13'),
                 $('#14'), $('#15'), $('#16'), $('#17'), $('#19'), $('#20'), $('#22'),
                 $('#23')];
-  console.log(set1combo1);
+  // console.log(set1combo1.length);
 
   var set2combo1 = [$('#48'), $('#49'), $('#51'), $('#52'), $('#54'), $('#55'), $('#56'),
                 $('#57'), $('#58'), $('#59'), $('#60'), $('#61'), $('#62'), $('#63'),
@@ -31,10 +33,11 @@ $(function() {
                 $('#71')];
 
   //specifying board pieces
-  $('#3').addClass('nexus');
-  $('#4').addClass('nexus');
-  $('#67').addClass('nexus');
-  $('#68').addClass('nexus');
+
+  // $('#3').addClass('nexus');
+  // $('#4').addClass('nexus');
+  // $('#67').addClass('nexus');
+  // $('#68').addClass('nexus');
   // $('.nexus').html('Base');
 
   $('#33').addClass('river');
@@ -43,6 +46,10 @@ $(function() {
   $('#38').addClass('river');
   $('.river').html('River');
 
+  $('#16').addClass('tower');
+  $('#23').addClass('tower');
+  $('#48').addClass('tower');
+  $('#55').addClass('tower');
   $('#18').addClass('tower');
   $('#21').addClass('tower');
   $('#50').addClass('tower');
@@ -122,7 +129,7 @@ var set2Array = [];
 
 //get data from LoL API
 $.getJSON(url, function(data) {
-  // console.log(data);
+  console.log(data);
 
   //create set1 game pieces
   charset1.forEach(function(e) {
@@ -246,7 +253,7 @@ $.getJSON(url, function(data) {
   ];
 
   charsetCopy1.forEach(function(e) {
-    var $charSet1CopyDiv = $('<div id="' + e.id + '" class="' + e.classType + ' draggable ui-widget-content">');
+    var $charSet1CopyDiv = $('<div id="' + e.id + '" class="' + e.classType + ' draggable ui-widget-content redTeam">');
     var imgData = data.data[e.name].image.full;
     var getImg = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' + imgData;
     $charSet1CopyDiv.html('<img id="gamePieceCopy' + count++ + '" class="gamePieces" src="' + getImg + '" title="' + [e.name] + '"/>');
@@ -256,6 +263,7 @@ $.getJSON(url, function(data) {
     $charSet1CopyDiv.draggable({
       grid: [10, 10],
       containment: '#gameboard',
+      stack: '.redTeam',
       cursor: 'pointer',
       revert: true});
 
@@ -283,19 +291,22 @@ $.getJSON(url, function(data) {
 
     //randomize red side game pieces
     set1BoardDisplay = _.shuffle(set1BoardDisplay);
+    console.log(set1BoardDisplay);
     //randomize blue side game pieces
     set2BoardDisplay = _.shuffle(set2BoardDisplay);
 
-    $flagCopyDiv1.draggable({
-      grid: [10, 10],
-      containment: '#gameboard',
-      cursor: 'pointer',
-      revert: true});
-    $flagCopyDiv2.draggable({
-      grid: [10, 10],
-      containment: '#gameboard',
-      cursor: 'pointer',
-      revert: true});
+    // $flagCopyDiv1.draggable({
+    //   grid: [10, 10],
+    //   containment: '#gameboard',
+    //   cursor: 'pointer',
+    //   stack: 'redTeam',
+    //   revert: true});
+    // $flagCopyDiv2.draggable({
+    //   grid: [10, 10],
+    //   containment: '#gameboard',
+    //   stack: 'blueTeam',
+    //   cursor: 'pointer',
+    //   revert: true});
 
     //place game pieces onto gameboard
     for (var i = 0; i < set1BoardDisplay.length; i++) {
@@ -325,18 +336,52 @@ $.getJSON(url, function(data) {
   ];
 
   charsetCopy2.forEach(function(e) {
-    var $charSet2CopyDiv = $('<div id="' + e.id + '" class="' + e.classType + ' draggable ui-widget-content">');
+    var $charSet2CopyDiv = $('<div id="' + e.id + '" class="' + e.classType + ' draggable ui-widget-content blueTeam">');
     var imgData = data.data[e.name].image.full;
     var getImg = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' + imgData;
     $charSet2CopyDiv.html('<img id="gamePieceCopy' + count++ + '" class="gamePieces" src="' + getImg + '" title="' + [e.name] + '"/>');
     set2BoardDisplay.push($charSet2CopyDiv);
     // console.log(set2BoardDisplay);
+
     $charSet2CopyDiv.draggable({
       grid: [10, 10],
       containment: '#gameboard',
+      stack: 'blueTeam',
       cursor: 'pointer',
       revert: true});
-
   });
+
+    //create animation for drag and drop action
+    $('#gameboard').find('div').droppable({
+      accept: '.draggable',
+      hoverClass: 'hovered',
+      drop: acceptGamePieces
+    });
+
+    function acceptGamePieces(event, ui) {
+      var gamePiece = $(this);
+      if (gamePiece) {
+        ui.draggable.addClass('acceptPiece');
+        // ui.draggable.draggable('disable');
+        ui.draggable.position( { of: $(this), my: 'center', at: 'center' } );
+        ui.draggable.draggable( 'option', 'revert', false );
+      }
+    }
+
+  //   $('#gameboard').find('div').droppable({
+  //     accept: '.blueTeam',
+  //     hoverClass: 'hovered',
+  //     drop: acceptBlueGamePieces
+  //   });
+  //
+  // function acceptBlueGamePieces(event, ui) {
+  //   var gamePiece = $(this);
+  //   if (gamePiece) {
+  //     ui.draggable.addClass('acceptPiece');
+  //     // ui.draggable.draggable('disable');
+  //     ui.draggable.position( { of: $(this), my: 'center', at: 'center' } );
+  //     ui.draggable.draggable( 'option', 'revert', false );
+  //   }
+  // }
 
 });
