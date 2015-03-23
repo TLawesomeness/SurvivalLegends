@@ -28,8 +28,8 @@ h1{
 }
 
 .gameSquare {
-  margin-left: 1px;
-  margin-right: 1px;
+  // margin-left: 1px;
+  // margin-right: 1px;
 }
 
 .gameSquare.hovered {
@@ -45,6 +45,8 @@ h1{
 .snow {
   background-color: #eaeff2;
   border: 2px solid white;
+  color: gray;
+  font-weight: bold;
 }
 
 .nexus {
@@ -71,11 +73,12 @@ h1{
   // opacity: 0.7;
 }
 
-.gamePieces {
-  height: 52px;
-  width: 52px;
+.gamePiecesImg {
+  height: 55px;
+  width: 55px;
   text-align: center;
-  margin-top: 4px;
+  margin-top: 2px;
+  margin-right: 2px;
 }
 
 .row {
@@ -104,20 +107,21 @@ p {
   height: 60px;
   width: 60px;
   margin-top: 5px;
-  border: 1px solid red;
+  border: 2px solid red;
 }
 
 .Chief2, .Runner2, .Fighter2, .Mage2, .Marksman2, .Assassin2, .Flag2 {
   height: 60px;
   width: 60px;
   margin-top: 5px;
-  border: 1px solid blue;
+  border: 3px solid blue;
 }
 
 .ChiefCopy1, .RunnerCopy1, .FighterCopy1, .MageCopy1, .MarksmanCopy1, .AssassinCopy1, .FlagCopy1 {
   height: 61px;
-  width: 61px;
-  margin-top: 5px;
+  width: 62px;
+  margin-top: 10px;
+  margin-left: -4px;
   border: 1px solid red;
   z-index: 2;
   background: red;
@@ -125,8 +129,9 @@ p {
 
 .ChiefCopy2, .RunnerCopy2, .FighterCopy2, .MageCopy2, .MarksmanCopy2, .AssassinCopy2, .FlagCopy2 {
   height: 61px;
-  width: 61px;
-  margin-top: 5px;
+  width: 62px;
+  margin-top: 10px;
+  margin-left: -4px;
   border: 1px solid blue;
   z-index: 2;
   background: blue;
@@ -136,3 +141,51 @@ p {
   opacity: 0.8;
   background: orange;
   }
+
+
+
+.flip {
+  transform: rotateY(180deg);
+}
+
+/* flip speed goes here */
+.flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+
+  position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+  backface-visibility: hidden;
+
+  position: absolute;
+  // top: 0;
+  // left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+  z-index: 2;
+  // background-image: url('http://fc08.deviantart.net/fs70/f/2012/164/3/3/league_of_legends_dock_icon_by_kaldrax-d53bbj5.png');
+  // background-size: cover;
+  text-align: center;
+  // margin: 5px;
+
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+}
+
+.coverImg {
+  width: 59px;
+  height: 59px;
+}
+
+/* back, initially hidden pane */
+.back {
+  transform: rotateY(180deg);
+  background-size: cover;
+  text-align: center;
+  // margin: 5px;
+}
