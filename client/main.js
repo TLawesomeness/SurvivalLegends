@@ -73,6 +73,7 @@ $(function() {
   $('#45').addClass('bush');
   $('#46').addClass('bush');
   $('#47').addClass('bush');
+  $('.bush').text('Bush');
 
   $('#32').addClass('snow');
   $('#35').addClass('snow');
@@ -87,6 +88,8 @@ $(function() {
 var charset1 = [
   {name: 'Tryndamere', classType: 'Chief1'},
   {name: 'Teemo', classType: 'Runner1'},
+  {name: 'DrMundo', classType: 'Runner1'},
+  {name: 'Blitzcrank', classType: 'Runner1'},
   {name: 'Jax', classType: 'Fighter1'},
   {name: 'MasterYi', classType: 'Fighter1'},
   {name: 'LeeSin', classType: 'Fighter1'},
@@ -103,6 +106,8 @@ var charset1 = [
 var charset2 = [
   {name: 'JarvanIV', classType: 'Chief2'},
   {name: 'Singed', classType: 'Runner2'},
+  {name: 'Skarner', classType: 'Runner2'},
+  {name: 'Hecarim', classType: 'Runner2'},
   {name: 'Garen', classType: 'Fighter2'},
   {name: 'XinZhao', classType: 'Fighter2'},
   {name: 'Fiora', classType: 'Fighter2'},
@@ -137,7 +142,7 @@ $.getJSON(url, function(data) {
 
   //create set1 game pieces
   charset1.forEach(function(e) {
-    var $charSet1Div = $('<div id="' + e.name + '" class="' + e.classType + '">');
+    var $charSet1Div = $('<div class="' + e.classType + '">');
     var imgData = data.data[e.name].image.full;
     var getImg = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' + imgData;
     $charSet1Div.html('<img id="gamePiece' + count++ + '" class="gamePiecesImg" src="' + getImg + '" title="' + [e.name] + '"/>');
@@ -171,7 +176,7 @@ $.getJSON(url, function(data) {
 
   //create set 2 game pieces
   charset2.forEach(function(e) {
-    var $charSet2Div = $('<div id="' + e.name + '" class="' + e.classType + '">');
+    var $charSet2Div = $('<div class="' + e.classType + '">');
     var imgData = data.data[e.name].image.full;
     var getImg = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' + imgData;
     $charSet2Div.html('<img id="gamePiece' + count++ + '" class="gamePiecesImg" src="' + getImg + '" title="' + [e.name] + '"/>');
@@ -210,8 +215,8 @@ $.getJSON(url, function(data) {
   $.getJSON(itemUrl, function(data) {
     var num1 = 3060;
     var num2 = 3040;
-    var $flagDiv1 = $('<div id="Banner of Command" class="Flag1">');
-    var $flagDiv2 = $('<div id="Seraph\'s Embrace" class="Flag2">');
+    var $flagDiv1 = $('<div class="Flag1">');
+    var $flagDiv2 = $('<div class="Flag2">');
     var imgData1 = data.data[num1].image.full;
     var imgData2 = data.data[num2].image.full;
     var getImg1 = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/' + imgData1;
@@ -242,23 +247,55 @@ $.getJSON(url, function(data) {
 
   var player1Pieces =
   [
-    {name: 'Tryndamere', id: 'Tryndamere1', classType: 'ChiefCopy1'},
-    {name: 'Teemo', id: 'Teemo1', classType: 'RunnerCopy1'},
-    {name: 'Jax', id: 'Jax1', classType: 'FighterCopy1'},
-    {name: 'MasterYi', id: 'MasterYi1', classType: 'FighterCopy1'},
-    {name: 'LeeSin', id: 'LeeSin1', classType: 'FighterCopy1'},
-    {name: 'Ahri', id: 'Ahri1', classType: 'MageCopy1'},
-    {name: 'Karma', id: 'Karma1', classType: 'MageCopy1'},
-    {name: 'Syndra', id: 'Syndra1', classType: 'MageCopy1'},
-    {name: 'Vayne', id: 'Vayne1', classType: 'MarksmanCopy1'},
-    {name: 'Quinn', id: 'Quinn1', classType: 'MarksmanCopy1'},
-    {name: 'Lucian', id: 'Lucian1', classType: 'MarksmanCopy1'},
-    {name: 'Akali', id: 'Akali1', classType: 'AssassinCopy1'},
-    {name: 'Zed', id: 'Zed1', classType: 'AssassinCopy1'}
+    {name: 'Tryndamere', id: 'Tryndamere', classType: 'ChiefCopy1',
+        canDestroy: ['RunnerCopy2','FighterCopy2', 'MageCopy2', 'MarksmanCopy2', 'ChiefCopy2']
+    },
+    {name: 'Teemo', id: 'Teemo', classType: 'RunnerCopy1',
+        canDestroy: 'RunnerCopy2'
+    },
+    {name: 'DrMundo', id: 'DrMundo', classType: 'RunnerCopy1',
+        canDestroy: 'RunnerCopy2'
+    },
+    {name: 'Blitzcrank', id: 'Blitzcrank', classType: 'RunnerCopy1',
+        canDestroy: 'RunnerCopy2'
+    },
+    {name: 'Jax', id: 'Jax', classType: 'FighterCopy1',
+        canDestroy: ['MageCopy2', 'MarksmanCopy2', 'RunnerCopy2', 'FighterCopy2']
+    },
+    {name: 'MasterYi', id: 'MasterYi', classType: 'FighterCopy1',
+        canDestroy: ['MageCopy2', 'MarksmanCopy2', 'RunnerCopy2', 'FighterCopy2']
+    },
+    {name: 'LeeSin', id: 'LeeSin', classType: 'FighterCopy1',
+        canDestroy: ['MageCopy2', 'MarksmanCopy2', 'RunnerCopy2', 'FighterCopy2']
+    },
+    {name: 'Ahri', id: 'Ahri', classType: 'MageCopy1',
+        canDestroy: ['AssassinCopy2', 'MarksmanCopy2', 'RunnerCopy2', 'MageCopy2']
+    },
+    {name: 'Karma', id: 'Karma', classType: 'MageCopy1',
+        canDestroy: ['AssassinCopy2', 'MarksmanCopy2', 'RunnerCopy2', 'MageCopy2']
+    },
+    {name: 'Syndra', id: 'Syndra', classType: 'MageCopy1',
+        canDestroy: ['AssassinCopy2', 'MarksmanCopy2', 'RunnerCopy2', 'MageCopy2']
+    },
+    {name: 'Vayne', id: 'Vayne', classType: 'MarksmanCopy1',
+        canDestroy: ['AssassinCopy2', 'FighterCopy2', 'RunnerCopy2', 'MarksmanCopy2']
+    },
+    {name: 'Quinn', id: 'Quinn', classType: 'MarksmanCopy1',
+        canDestroy: ['AssassinCopy2', 'FighterCopy2', 'RunnerCopy2', 'MarksmanCopy2']
+    },
+    {name: 'Lucian', id: 'Lucian', classType: 'MarksmanCopy1',
+        canDestroy: ['AssassinCopy2', 'FighterCopy2', 'RunnerCopy2', 'MarksmanCopy2']
+    },
+    {name: 'Akali', id: 'Akali', classType: 'AssassinCopy1',
+        canDestroy: ['AssassinCopy2', 'FighterCopy2', 'RunnerCopy2', 'MageCopy2', 'ChiefCopy2']
+    },
+    {name: 'Zed', id: 'Zed', classType: 'AssassinCopy1',
+        canDestroy: ['AssassinCopy2', 'FighterCopy2', 'RunnerCopy2', 'MageCopy2', 'ChiefCopy2']
+    }
   ];
 
   player1Pieces.forEach(function(e) {
-    var p1GamePieceDiv = $('<div class="' + e.classType + ' draggable ui-widget-content redTeam">');
+    var p1GamePieceDiv = $('<div class="draggable ui-widget-content redTeam">');
 
     var $flipper = $('<div>');
     $flipper.addClass('flipper');
@@ -271,7 +308,7 @@ $.getJSON(url, function(data) {
     var getImg = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' + imgData;
     // p1GamePieceDiv.html('<img id="gamePieceCopy' + count++ + '" class="gamePieces" src="' + getImg + '" title="' + [e.name] + '"/>');
 
-    var $back = $('<div id="' + e.id + '">');
+    var $back = $('<div id="' + e.id + '" class="' + e.classType + '">');
     $back.addClass('back');
     $back.html('<img id="gamePieceCopy' + count++ + '" class="gamePiecesImg" src="' + getImg + '" title="' + [e.name] + '"/>');
 
@@ -283,8 +320,8 @@ $.getJSON(url, function(data) {
 
     // create flip functionality
     p1GamePieceDiv.click(function() {
-      $(this).find('.flipper').toggleClass('flip');
-      console.log('clicked');
+      $(this).find('.flipper').addClass('flipped');
+      // console.log('clicked');
     });
 
     p1GamePieceDiv.draggable({
@@ -292,7 +329,8 @@ $.getJSON(url, function(data) {
       containment: '#gameboard',
       stack: '.redTeam',
       cursor: 'pointer',
-      revert: true});
+      revert: true
+      });
   });
 
   var flagsetCopy = [
@@ -304,7 +342,7 @@ $.getJSON(url, function(data) {
     var num1 = 3060;
     var num2 = 3040;
     var $flagCopyDiv1 = $('<div class="FlagCopy1 draggable ui-widget-content">');
-    var $flagCopyDiv2 = $('<div id="Seraph\'s Embrace2" class="FlagCopy2 draggable ui-widget-content">');
+    var $flagCopyDiv2 = $('<div class="FlagCopy2 draggable ui-widget-content">');
 
     var $flipper1 = $('<div>');
     $flipper1.addClass('flipper');
@@ -331,7 +369,7 @@ $.getJSON(url, function(data) {
     $flipper1.append($frontCover1, $back1);
     $flagCopyDiv1.append($flipper1);
 
-    var $back2 = $('<div id="Banner of Command1">');
+    var $back2 = $('<div id="Seraph\'s Embrace2">');
     $back2.addClass('back');
     $back2.html('<img id="gamePieceCopy' + count++ + '" class="gamePiecesImg" src="' + getImg2 + '" title="Seraph\'s Embrace"/>');
     $flipper2.append($frontCover2, $back2);
@@ -342,38 +380,26 @@ $.getJSON(url, function(data) {
     // console.log(set2BoardDisplay);
 
     $flagCopyDiv1.click(function() {
-      $(this).find('.flipper').toggleClass('flip');
+      $(this).find('.flipper').addClass('flipped');
     });
 
     $flagCopyDiv2.click(function() {
-      $(this).find('.flipper').toggleClass('flip');
+      $(this).find('.flipper').addClass('flipped');
     });
     //randomize game pieces
     set1BoardDisplay = _.shuffle(set1BoardDisplay);
     set2BoardDisplay = _.shuffle(set2BoardDisplay);
 
-    // $flagCopyDiv1.draggable({
-    //   grid: [10, 10],
-    //   containment: '#gameboard',
-    //   cursor: 'pointer',
-    //   stack: 'redTeam',
-    //   revert: true});
-    // $flagCopyDiv2.draggable({
-    //   grid: [10, 10],
-    //   containment: '#gameboard',
-    //   stack: 'blueTeam',
-    //   cursor: 'pointer',
-    //   revert: true});
 
-    var row1 = $('#gameBoardRow0').find('.gameSquare');
-    var row2 = $('#gameBoardRow1').find('.gameSquare');
-    var row3 = $('#gameBoardRow2').find('.gameSquare');
-    var topRows = [row1, row2, row3];
-    console.log(topRows);
+    // var row1 = $('#gameBoardRow0').find('.gameSquare');
+    // var row2 = $('#gameBoardRow1').find('.gameSquare');
+    // var row3 = $('#gameBoardRow2').find('.gameSquare');
+    // var topRows = [row1, row2, row3];
+    // console.log(topRows);
 
     //place game pieces onto gameboard
     for (var i = 0; i < set1BoardDisplay.length; i++) {
-      var show1 = $('#' + i).append(set1BoardDisplay[i]);
+      $('#' + i).append(set1BoardDisplay[i]);
     }
 
     for (var i = 0, j = 71; i < set2BoardDisplay.length; j--, i++) {
@@ -383,23 +409,55 @@ $.getJSON(url, function(data) {
   });
 
   var player2Pieces = [
-    {name: 'JarvanIV', id: 'JarvanIV2', classType: 'ChiefCopy2'},
-    {name: 'Singed', id: 'Singed2', classType: 'RunnerCopy2'},
-    {name: 'Garen', id: 'Garen2', classType: 'FighterCopy2'},
-    {name: 'XinZhao', id: 'XinZhao2', classType: 'FighterCopy2'},
-    {name: 'Fiora', id: 'Fiora2', classType: 'FighterCopy2'},
-    {name: 'Lux', id: 'Lux2', classType: 'MageCopy2'},
-    {name: 'Sona', id: 'Sona2', classType: 'MageCopy2'},
-    {name: 'Galio', id: 'Galio2', classType: 'MageCopy2'},
-    {name: 'Caitlyn', id: 'Caitlyn2', classType: 'MarksmanCopy2'},
-    {name: 'Ezreal', id: 'Ezreal2', classType: 'MarksmanCopy2'},
-    {name: 'Jayce', id: 'Jayce2', classType: 'MarksmanCopy2'},
-    {name: 'Talon', id: 'Talon2', classType: 'AssassinCopy2'},
-    {name: 'Katarina', id: 'Katarina2', classType: 'AssassinCopy2'}
+    {name: 'JarvanIV', id: 'JarvanIV', classType: 'ChiefCopy2',
+        canDestroy: ['RunnerCopy1','FighterCopy1', 'MageCopy1', 'MarksmanCopy1', 'ChiefCopy1']
+    },
+    {name: 'Singed', id: 'Singed', classType: 'RunnerCopy2',
+        canDestroy: 'RunnerCopy1'
+    },
+    {name: 'Skarner', id: 'Skarner', classType: 'RunnerCopy2',
+        canDestroy: 'RunnerCopy1'
+    },
+    {name: 'Hecarim', id: 'Hecarim', classType: 'RunnerCopy2',
+        canDestroy: 'RunnerCopy1'
+    },
+    {name: 'Garen', id: 'Garen', classType: 'FighterCopy2',
+        canDestroy: ['MageCopy1', 'MarksmanCopy1', 'RunnerCopy1', 'FighterCopy1']
+    },
+    {name: 'XinZhao', id: 'XinZhao', classType: 'FighterCopy2',
+        canDestroy: ['MageCopy1', 'MarksmanCopy1', 'RunnerCopy1', 'FighterCopy1']
+    },
+    {name: 'Fiora', id: 'Fiora', classType: 'FighterCopy2',
+        canDestroy: ['MageCopy1', 'MarksmanCopy1', 'RunnerCopy1', 'FighterCopy1']
+    },
+    {name: 'Lux', id: 'Lux', classType: 'MageCopy2',
+        canDestroy: ['AssassinCopy1', 'MarksmanCopy1', 'RunnerCopy1', 'MageCopy1']
+    },
+    {name: 'Sona', id: 'Sona', classType: 'MageCopy2',
+        canDestroy: ['AssassinCopy1', 'MarksmanCopy1', 'RunnerCopy1', 'MageCopy1']
+    },
+    {name: 'Galio', id: 'Galio', classType: 'MageCopy2',
+        canDestroy: ['AssassinCopy1', 'MarksmanCopy1', 'RunnerCopy1', 'MageCopy1']
+    },
+    {name: 'Caitlyn', id: 'Caitlyn', classType: 'MarksmanCopy2',
+        canDestroy: ['AssassinCopy1', 'FighterCopy1', 'RunnerCopy1', 'MarksmanCopy1']
+    },
+    {name: 'Ezreal', id: 'Ezreal', classType: 'MarksmanCopy2',
+        canDestroy: ['AssassinCopy1', 'FighterCopy1', 'RunnerCopy1', 'MarksmanCopy1']
+    },
+    {name: 'Jayce', id: 'Jayce', classType: 'MarksmanCopy2',
+        canDestroy: ['AssassinCopy1', 'FighterCopy1', 'RunnerCopy1', 'MarksmanCopy1']
+    },
+    {name: 'Talon', id: 'Talon', classType: 'AssassinCopy2',
+        canDestroy: ['AssassinCopy1', 'FighterCopy1', 'RunnerCopy1', 'MageCopy1', 'ChiefCopy1']
+    },
+    {name: 'Katarina', id: 'Katarina', classType: 'AssassinCopy2',
+        canDestroy: ['AssassinCopy1', 'FighterCopy1', 'RunnerCopy1', 'MageCopy1', 'ChiefCopy1']
+    }
   ];
 
   player2Pieces.forEach(function(e) {
-    var p2GamePieceDiv = $('<div class="' + e.classType + ' draggable ui-widget-content blueTeam">');
+    var p2GamePieceDiv = $('<div class="draggable ui-widget-content blueTeam">');
 
     var $flipper = $('<div>');
     $flipper.addClass('flipper');
@@ -412,7 +470,7 @@ $.getJSON(url, function(data) {
     var getImg = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' + imgData;
     // p2GamePieceDiv.html('<img id="gamePieceCopy' + count++ + '" class="gamePiecesImg" src="' + getImg + '" title="' + [e.name] + '"/>');
 
-    var $back = $('<div id="' + e.id + '">');
+    var $back = $('<div id="' + e.id + '" class="' + e.classType + '">');
     $back.addClass('back');
     $back.html('<img id="gamePieceCopy' + count++ + '" class="gamePiecesImg" src="' + getImg + '" title="' + [e.name] + '"/>');
 
@@ -424,8 +482,8 @@ $.getJSON(url, function(data) {
 
     // create flip functionality
     p2GamePieceDiv.click(function() {
-      $(this).find('.flipper').toggleClass('flip');
-      console.log('clicked');
+      $(this).find('.flipper').addClass('flipped');
+      // console.log('clicked');
     });
 
     p2GamePieceDiv.draggable({
@@ -445,6 +503,7 @@ $.getJSON(url, function(data) {
 
   function acceptGamePieces(event, ui) {
     var gamePiece = $(this);
+    // console.log(gamePiece);
     if (gamePiece) {
       ui.draggable.addClass('acceptPiece');
       // ui.draggable.draggable('disable');
