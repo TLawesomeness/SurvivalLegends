@@ -26,10 +26,10 @@ $(function() {
   //               $('#14'), $('#15'), $('#16'), $('#17'), $('#19'), $('#20'), $('#22'),
   //               $('#23')];
 
-  var set2combo1 = [$('#48'), $('#49'), $('#51'), $('#52'), $('#54'), $('#55'), $('#56'),
-                $('#57'), $('#58'), $('#59'), $('#60'), $('#61'), $('#62'), $('#63'),
-                $('#64'), $('#65'), $('#66'), $('#67'), $('#68'), $('#69'), $('#70'),
-                $('#71')];
+  // var set2combo1 = [$('#48'), $('#49'), $('#51'), $('#52'), $('#54'), $('#55'), $('#56'),
+  //               $('#57'), $('#58'), $('#59'), $('#60'), $('#61'), $('#62'), $('#63'),
+  //               $('#64'), $('#65'), $('#66'), $('#67'), $('#68'), $('#69'), $('#70'),
+  //               $('#71')];
 
   //specifying board pieces
 
@@ -45,6 +45,8 @@ $(function() {
   $('#38').addClass('river');
   $('.river').html('River');
 
+  // $('#11').addClass('tower');
+  // $('#12').addClass('tower');
   $('#16').addClass('tower');
   $('#23').addClass('tower');
   $('#48').addClass('tower');
@@ -78,6 +80,8 @@ $(function() {
   $('#39').addClass('snow');
   $('.snow').html('Tundra');
 });
+
+
 
 //Defining game piece stats
 var charset1 = [
@@ -279,7 +283,7 @@ $.getJSON(url, function(data) {
 
     // create flip functionality
     p1GamePieceDiv.click(function() {
-      $(this).find('.flipper').addClass('flip');
+      $(this).find('.flipper').toggleClass('flip');
       console.log('clicked');
     });
 
@@ -289,7 +293,6 @@ $.getJSON(url, function(data) {
       stack: '.redTeam',
       cursor: 'pointer',
       revert: true});
-
   });
 
   var flagsetCopy = [
@@ -339,11 +342,11 @@ $.getJSON(url, function(data) {
     // console.log(set2BoardDisplay);
 
     $flagCopyDiv1.click(function() {
-      $(this).find('.flipper').addClass('flip');
+      $(this).find('.flipper').toggleClass('flip');
     });
 
     $flagCopyDiv2.click(function() {
-      $(this).find('.flipper').addClass('flip');
+      $(this).find('.flipper').toggleClass('flip');
     });
     //randomize game pieces
     set1BoardDisplay = _.shuffle(set1BoardDisplay);
@@ -362,15 +365,15 @@ $.getJSON(url, function(data) {
     //   cursor: 'pointer',
     //   revert: true});
 
+    var row1 = $('#gameBoardRow0').find('.gameSquare');
+    var row2 = $('#gameBoardRow1').find('.gameSquare');
+    var row3 = $('#gameBoardRow2').find('.gameSquare');
+    var topRows = [row1, row2, row3];
+    console.log(topRows);
+
     //place game pieces onto gameboard
     for (var i = 0; i < set1BoardDisplay.length; i++) {
-      // $('#' + i).append(set1BoardDisplay[i]);
-      //create preset game pieces load display
-      var set1combo1 = [$('#0'), $('#1'), $('#2'), $('#3'), $('#4'), $('#5'), $('#6'),
-                    $('#7'), $('#8'), $('#9'), $('#10'), $('#11'), $('#12'), $('#13'),
-                    $('#14'), $('#15'), $('#16'), $('#17'), $('#19'), $('#20'), $('#22'),
-                    $('#23')];
-      set1combo1.append(set1BoardDisplay[i]);
+      var show1 = $('#' + i).append(set1BoardDisplay[i]);
     }
 
     for (var i = 0, j = 71; i < set2BoardDisplay.length; j--, i++) {
@@ -421,7 +424,7 @@ $.getJSON(url, function(data) {
 
     // create flip functionality
     p2GamePieceDiv.click(function() {
-      $(this).find('.flipper').addClass('flip');
+      $(this).find('.flipper').toggleClass('flip');
       console.log('clicked');
     });
 
